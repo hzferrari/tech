@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<!-- 屏幕缩放 -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+	<title>char.js</title>
+	<script src="js/Chart.js"></script>
+	<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+	<style>
+	    canvas {
+	        -moz-user-select: none;
+	        -webkit-user-select: none;
+	        -ms-user-select: none;
+	    }
+    </style>
+</head>
+<body>
+	<canvas id="myChart1" width="400" height="260"></canvas>
+	<br>
+	<canvas id="myChart2" width="400" height="400"></canvas>
+	<canvas id="myChart3" width="400" height="400"></canvas>
+	<script type="text/javascript">
+	var KLChart = {
+		//******定义线型图表对象
+		chartLine: {	
+			charsetData: {
+				type: "line",
+				data: {
+					labels: [],		//数据项（对应data）
+			        datasets: [{
+			            label: "",	//图表legend
+			            data: [],	//数据值
+			            fill: 'false',	//线条下方区域是否填充颜色（false=不填充）
+			            backgroundColor: 'rgba(255, 99, 132,0.1)',	//线条下方区域填充颜色
+			            borderColor: 'rgb(255, 99, 132)',	
+			            
+			        }]
+				},
+				// Configuration options go here
+			    options: {}
+			},
+			init: function(legend,labels,data){
+				var ctx = document.getElementById("myChart1").getContext('2d');
+			
+				this.charsetData.data.labels = labels;
+				this.charsetData.data.datasets[0].label = legend;
+				this.charsetData.data.datasets[0].data = data;
+				var chart = new Chart(ctx, this.charsetData);
+			},
+		},
+		//******定义雷达图表对象
+		chartRada: {
+			charsetData: {
+				type: "radar",
+				data: {
+					labels: [],		//数据项（对应data）
+			        datasets: [
+			        {
+			            label: "",	//图表legend
+			            data: [],	//数据值
+			            backgroundColor: 'rgba(255, 99, 132, 0.3)',
+			            borderColor: 'rgba(255, 99, 132, 0.9)',  
+			            borderWidth: 3,		//线宽（px）
+				        // borderCapStyle: "round",
+				        // borderJoinStyle: "round",
+				        pointBackgroundColor: "rgba(255, 99, 132, 0.9)",
+				        pointBorderColor: "#ffffff",
+				        // pointBorderWidth: 1,	//交叉点的border的宽（px）
+				        // pointHoverBorderColor: "",	//hover时弹出框的颜色
+				        // pointHoverBorderWidth: "",	//hover时弹出框的宽度
+				        // pointHoverRadius: ""	
+			        },
+			        {
+			            label: "",	//图表legend
+			            data: [],	//数据值
+			            backgroundColor: 'rgba(77,154,229,0.3)',
+			            borderColor: 'rgba(77,154,229,0.9)',  
+			            borderWidth: 3,		//线宽（px）
+				        // borderCapStyle: "round",
+				        // borderJoinStyle: "round",
+				        pointBackgroundColor: "rgba(77,154,229,0.9)",
+				        pointBorderColor: "#ffffff",
+				        // pointBorderWidth: 1,	//交叉点的border的宽（px）
+				        // pointHoverBorderColor: "",	//hover时弹出框的颜色
+				        // pointHoverBorderWidth: "",	//hover时弹出框的宽度
+				        // pointHoverRadius: ""	
+			        },
+			        ]
+				},
+				// Configuration options go here
+			    options: {
+				    title:{
+	               		display:true,
+		                text:"这是一行标题"
+		            },
+		            elements: {
+		                line: {
+		                    tension: 0.0,	//线弯曲程度
+		                }
+		            },
+		            legend: {
+                        labels: {
+                        	display: true,
+                            // 此处样式设置将覆盖全局设置
+                            fontColor: '#555',	//图例文字颜色
+
+                        },
+                        position: "top",	//图例位置
+                    },
+		            scale: {
+		                beginAtZero: true,
+		                // display: true
+		            }
+				}
+			},
+			init: function(legend,labels,data){
+				var ctx = document.getElementById("myChart2").getContext('2d');
+			
+				this.charsetData.data.labels = labels;
+				//图例1
+				this.charsetData.data.datasets[0].label = legend[0];
+				this.charsetData.data.datasets[0].data = data[0];
+				//图例2
+				this.charsetData.data.datasets[1].label = legend[1];
+				this.charsetData.data.datasets[1].data = data[1];
+				//
+				var myRadarChart = new Chart(ctx, this.charsetData);
+			},
+		},
+		init: function(){
+			//图表全局样式设置
+			Chart.defaults.global.defaultFontColor = '#555';	//字体颜色
+			// Chart.defaults.global.defaultFontSize = '10';		//字体大小
+
+
+			//创建线型图表
+			var chartLineLegend = "My First dataset",
+				chartLinelabels = ["January", "February", "March", "April", "May", "June", "July"],	//x轴
+				chartLineData = [0, 10, 5, 2, 20, 30, 45];	//y轴
+			KLChart.chartLine.init(chartLineLegend,chartLinelabels,chartLineData);
+			//创建雷达图表
+			var chartRadaLegend = ["雷达图1","雷达图2"],
+				chartRadalabels = ['项目1', '项目2', '项目3', '项目4', '项目5'],
+				chartRadaData = [
+					[KLChart.randomScalingFactor(),
+					 KLChart.randomScalingFactor(),
+					 KLChart.randomScalingFactor(),
+					 KLChart.randomScalingFactor(),
+					 KLChart.randomScalingFactor(),],
+					[KLChart.randomScalingFactor(),
+					 KLChart.randomScalingFactor(),
+					 KLChart.randomScalingFactor(),
+					 KLChart.randomScalingFactor(),
+					 KLChart.randomScalingFactor(),],
+				];
+			KLChart.chartRada.init(chartRadaLegend,chartRadalabels,chartRadaData);
+		},
+		randomScalingFactor: function() {
+			//返回0-100的整数
+	        return Math.round(Math.random() * 100);
+	    },
+	}
+	KLChart.init();
+
+
+	
+	</script>
+</body>
+</html>
