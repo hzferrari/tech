@@ -39,7 +39,17 @@
 			        }]
 				},
 				// Configuration options go here
-			    options: {}
+			    options: {
+			    	legend: {
+                        labels: {
+                        	display: false,
+                            // 此处样式设置将覆盖全局设置
+                            fontColor: '#555',	//图例文字颜色
+
+                        },
+                        position: "top",	//图例位置
+                    },
+			    }
 			},
 			init: function(legend,labels,data){
 				var ctx = document.getElementById("myChart1").getContext('2d');

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>console改写</title>
+</head>
+<body>
+    <script type="text/javascript">
+        //alert出console.log
+        (function(){
+             var print={
+                 lock:true,     //false时不改写
+                 //重写console.log
+                 log:function(param){
+                     if(this.lock){
+                         var element=document.createElement("div");
+                         element.style.background='#d2ffd2';
+                         element.style.fontSize='16px';
+                         switch (typeof param){
+                             case "string" :element.innerHTML=param;break;
+                             case "object":element.innerHTML=JSON.stringify(param);break;
+                         }
+                         // document.body.appendChild(element);
+                         alert(element.innerHTML);
+                     }
+                 },
+                 //重写console.info
+                 info:function(param){
+                     if(this.lock){
+                         var element=document.createElement("div");
+                         element.style.background='#d2ffd2';
+                         element.style.fontSize='16px';
+                         switch (typeof param){
+                             case "string" :element.innerHTML=param;break;
+                             case "object":element.innerHTML=JSON.stringify(param);break;
+                         }
+                         // document.body.appendChild(element);
+                         alert(element.innerHTML);
+                     }
+                 }
+             }
+             window.console=print;
+         })(window)
+         //测试语句
+         console.log("我哦我我我我我我我哦我")
+         console.log({name:"张三",age:15})
+    </script>
+</body>
+</html>
